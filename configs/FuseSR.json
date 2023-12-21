@@ -1,0 +1,58 @@
+{
+    "job_name" : "FuseSR",
+
+    "train_batch_size" : 16,
+    "eval_batch_size" : 4,
+
+    "epochs" : 100,
+    "learning_rate" : 0.0001,
+    "gpu" : [ 0 ],
+
+    "upsample_factor" : 4,
+
+    "hrWidth" : 1920,
+    "hrHeight" : 1080,
+
+    "hr_patch_size" : 512,
+
+    "log_folder" : "log/",
+
+    "weight_path" : "checkpoint/",
+
+    "train_data_path" : [
+        ["", [0, 6000]]
+    ],
+    "eval_data_path" : [
+        ["", [800, 1000]]
+    ],
+
+    "test_data_path" : [
+        ["", "range", [0, 1000]]
+    ],
+    
+    "test_result" : "result/",
+
+    "check_data" : true,
+
+    "num_workers" : 2,
+
+    "model_name" : "FuseSRmodel",
+    "model_file" : "FuseSR",
+    "model_input" : [
+        "Irradiance",
+        "Normal",
+        "Depth",
+        "Motion",
+        "BRDF_HR",
+        "history_1_Irradiance",
+        "history_1_Normal",
+        "history_1_Depth",
+        "history_1_Motion",
+        "history_2_Irradiance",
+        "history_2_Normal",
+        "history_2_Depth"
+    ],
+
+    "optimizer_name" : "Adam",
+    "loss_name" : "L1Loss"
+}
