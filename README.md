@@ -1,4 +1,6 @@
 # FuseSR: Super Resolution for Real-time Rendering through Efficient Multi-resolution Fusion 
+### [Project Page](https://isaac-paradox.github.io/FuseSR/) | [Paper](https://arxiv.org/abs/2310.09726) | [Supplementary](https://drive.google.com/file/d/1UO0vPEakHvXMltCcBSuwgPjrY1ITI5j7/view?usp=share_link) | [Video](https://drive.google.com/file/d/1wSPdfpwOkOIznQUqUZdBMmdQ3WAWlhms/view?usp=share_link)
+
 Welcome to the official GitHub repository for the paper entitled "FuseSR: Super Resolution for Real-time Rendering through Efficient Multi-resolution Fusion", presented at SIGGRAPH ASIA 2023. 
 
 ![Banner Image](image/cover.jpeg) 
@@ -40,6 +42,12 @@ And launch the training using:
 export CONFIG="configs/FuseSR.json"
 python train.py -c $CONFIG
 ```
+
+### Alternative Models
+
+- `FuseSR`: Standard model
+- `FuseSR_Fast`: Fast version of FuseSR ("Ours⚡" in main paper)
+- `FuseSR_Direct`: Directly predict the image pixel color **without demodulation**. May work for scenes with complex materials that the demodulation scheme does not support.
 
 ## Citation 
 

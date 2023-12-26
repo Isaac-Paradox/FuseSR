@@ -1,5 +1,5 @@
 {
-    "job_name" : "FuseSR",
+    "job_name" : "FuseSR_Direct",
 
     "train_batch_size" : 16,
     "eval_batch_size" : 4,
@@ -37,21 +37,20 @@
     "num_workers" : 2,
 
     "model_name" : "FuseSRmodel",
-    "model_file" : "FuseSR",
+    "model_file" : "FuseSR_Direct",
     "model_input" : [
-        "Irradiance",
+        "Input",
         "Normal",
         "Depth",
         "Motion",
-        "BRDF_HR",
+        "Albedo_HR",
         "Depth_HR",
         "Normal_HR",
-        "Albedo_HR",
-        "history_1_Irradiance",
+        "history_1_Input",
         "history_1_Normal",
         "history_1_Depth",
         "history_1_Motion",
-        "history_2_Irradiance",
+        "history_2_Input",
         "history_2_Normal",
         "history_2_Depth"
     ],

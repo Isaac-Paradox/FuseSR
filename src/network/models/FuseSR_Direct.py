@@ -22,7 +22,7 @@ class FuseSRmodel(nn.Module):
         backbone_channels = 128
 
         # inv_channels = 3 * self.scale_factor * self.scale_factor
-        inv_channels = (3 * 3 + 1) * self.scale_factor * self.scale_factor
+        inv_channels = (2 * 3 + 1) * self.scale_factor * self.scale_factor
 
         self.HRCompact = nn.Sequential(
             nn.Conv2d(inv_channels, 64, 3, padding=1),
@@ -50,13 +50,13 @@ class FuseSRmodel(nn.Module):
         )
 
     def forward(self, data : dict):
-        current = torch.cat((data[irradiance_name], data[depth_name], data[normal_name]), dim = 1)
+        current = torch.cat((data[input_name], data[depth_name], data[normal_name]), dim = 1)
 
         shallow_features, current_features = self.encoder(current)
         current_features = self.CurrentExpend(current_features)
 
         historical_1 = torch.cat((
-            data["history_1_" + irradiance_name],
+            data["history_1_" + input_name],
             data["history_1_" + depth_name], 
             data["history_1_" + normal_name]), dim = 1)
 
@@ -67,7 +67,7 @@ class FuseSRmodel(nn.Module):
         historical_1_features = historical_1_features * self.attention(torch.cat((motion_vector_1, data["history_1_" + depth_name], data[depth_name]), dim=1))
         
         historical_2 = torch.cat((
-            data["history_2_" + irradiance_name],
+            data["history_2_" + input_name],
             data["history_2_" + depth_name], 
             data["history_2_" + normal_name]), dim = 1)
 
@@ -81,11 +81,12 @@ class FuseSRmodel(nn.Module):
 
         historical_features = torch.cat((historical_1_features, historical_2_features), dim=1)
 
-        BRDF = data[precomputed_BRDF_name + HR_postfix_name]
+        # BRDF = data[precomputed_BRDF_name + HR_postfix_name]
         depthHR = data[depth_name + HR_postfix_name]
         normalHR = data[normal_name + HR_postfix_name]
         albedoHR = data[albedo_name + HR_postfix_name]
-        HR_features = self.HRCompact(F.pixel_unshuffle(torch.cat((BRDF, depthHR, normalHR, albedoHR), dim=1), self.scale_factor))
+        # HR_features = self.HRCompact(F.pixel_unshuffle(torch.cat((BRDF, depthHR, normalHR, albedoHR), dim=1), self.scale_factor))
+        HR_features = self.HRCompact(F.pixel_unshuffle(torch.cat((albedoHR, depthHR, normalHR), dim=1), self.scale_factor))
 
         # backbone_output = self.backbone(
         #             torch.cat((current_features, historical_features, F.pixel_unshuffle(BRDF, self.scale_factor)), dim=1))
@@ -93,7 +94,7 @@ class FuseSRmodel(nn.Module):
 
         output = self.refine_conv(
             self.Upsampling(torch.cat((backbone_output, shallow_features), dim=1))
-            ) * BRDF
+            ) # No demodulation
 
         return output
 

@@ -11,6 +11,7 @@ raw_motion_depth_name = "RawMotionDepth"
 motion_name = "Motion"
 normal_name = "Normal"
 depth_name = "Depth"
+albedo_name = "Albedo"
 
 irradiance_name = "Irradiance"
 precomputed_BRDF_name = "BRDF"
